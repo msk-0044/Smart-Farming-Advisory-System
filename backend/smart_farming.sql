@@ -1,8 +1,3 @@
--- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
---
--- Host: localhost    Database: smart_farming
--- ------------------------------------------------------
--- Server version	10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,11 +9,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `admin`
---
-
 DROP TABLE IF EXISTS `admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -30,20 +20,9 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `admin`
---
-
-LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
 INSERT INTO `admin` VALUES (1,'admin@sf.com','admin123');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `disease_reports`
---
-
 DROP TABLE IF EXISTS `disease_reports`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -59,20 +38,9 @@ CREATE TABLE `disease_reports` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `disease_reports`
---
-
-LOCK TABLES `disease_reports` WRITE;
 /*!40000 ALTER TABLE `disease_reports` DISABLE KEYS */;
 INSERT INTO `disease_reports` VALUES (1,'Ramesh Kumar','Potato','Early Blight',91,'High','2025-12-01 10:30:00'),(2,'Sunita Devi','Rice','Blast',88,'Medium','2025-11-29 09:15:00'),(3,'Mohit Sharma','Wheat','Leaf Rust',93,'High','2025-11-25 14:45:00'),(4,'Anita Yadav','Maize','Blight',86,'Medium','2025-11-20 16:20:00'),(6,'MSK KHAN','Wheat','Healthy Leaf',95,'Low','2026-02-18 15:16:57'),(7,'MSK KHAN','Potato','Powdery Mildew',88,'Medium','2026-02-18 16:26:13'),(8,'MSK KHAN','Potato','Powdery Mildew',88,'Medium','2026-02-18 16:26:15'),(9,'MSK KHAN','Potato','Powdery Mildew',88,'Medium','2026-02-18 16:26:15'),(10,'MSK KHAN','Potato','Powdery Mildew',88,'Medium','2026-02-18 16:26:16'),(11,'MSK KHAN','Potato','Powdery Mildew',88,'Medium','2026-02-18 16:26:17'),(12,'MSK KHAN','Potato','Powdery Mildew',88,'Medium','2026-02-18 16:26:17');
 /*!40000 ALTER TABLE `disease_reports` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `soil_parameter`
---
-
 DROP TABLE IF EXISTS `soil_parameter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -88,20 +56,9 @@ CREATE TABLE `soil_parameter` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `soil_parameter`
---
-
-LOCK TABLES `soil_parameter` WRITE;
 /*!40000 ALTER TABLE `soil_parameter` DISABLE KEYS */;
 INSERT INTO `soil_parameter` VALUES (1,'Ramesh',50,40,30,6.5,'2026-02-18 15:40:25'),(2,'Sunita',60,35,40,7,'2026-02-18 15:40:25'),(3,'MSK KHAN',50,50,20,0,'2026-02-18 16:25:09');
 /*!40000 ALTER TABLE `soil_parameter` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -116,14 +73,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -134,4 +85,3 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-02-19  3:23:22
