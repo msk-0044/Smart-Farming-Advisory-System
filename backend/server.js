@@ -90,18 +90,23 @@ function safeQuery(sql, params, callback) {
 app.post("/register", (req, res) => {
   const { name, mobile, password, village, crop } = req.body;
 
+  // 🔴 EMPTY FIELD CHECK
   if (!name || !mobile || !password || !village || !crop) {
     return res.status(400).send("All fields required");
   }
 
+  // 🔴 MOBILE CHECK
   if (!/^\d{10}$/.test(mobile)) {
-    return res.status(400).send("Mobile must be 10 digits");
+    return res.status(400).send("Phone number must be 10 digits");
   }
 
   const checkQuery = "SELECT * FROM users WHERE mobile_no = ?";
 
   safeQuery(checkQuery, [mobile], (err, result) => {
-    if (err) return res.status(500).send("DB error");
+    if (err) {
+      console.log(err);
+      return res.status(500).send("DB error");
+    }
 
     if (result.length > 0) {
       return res.status(409).send("Mobile already registered");
@@ -112,7 +117,7 @@ app.post("/register", (req, res) => {
 
     safeQuery(insertQuery, [name, mobile, password, village, crop], (err) => {
       if (err) {
-        console.log(err);
+        console.log("REGISTER ERROR:", err);
         return res.status(500).send("Insert failed");
       }
 
@@ -122,13 +127,15 @@ app.post("/register", (req, res) => {
 });
 
 
+
 // ================== LOGIN FARMER ==================
 
 app.post("/login", (req, res) => {
   const { mobile, password } = req.body;
 
+  // 🔴 EMPTY CHECK
   if (!mobile || !password) {
-    return res.status(400).send("Enter mobile & password");
+    return res.status(400).send("Enter mobile and password");
   }
 
   const query = "SELECT * FROM users WHERE mobile_no = ? AND password = ?";
@@ -139,13 +146,14 @@ app.post("/login", (req, res) => {
       return res.status(500).send("DB error");
     }
 
-    if (result.length === 0) {
+    if (!result || result.length === 0) {
       return res.status(401).send("Invalid mobile or password");
     }
 
     res.json(result[0]);
   });
 });
+
 
 
 // ================== ADMIN LOGIN ==================
