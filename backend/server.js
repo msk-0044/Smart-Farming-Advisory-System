@@ -432,9 +432,10 @@ app.post("/save-soil", (req, res) => {
 
 
 // SPA fallback for React/Vite frontend
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
+
 
 
 // ================== START SERVER ==================
