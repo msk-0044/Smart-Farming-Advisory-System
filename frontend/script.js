@@ -49,7 +49,7 @@ function registerFarmer(event) {
     return;
   }
 
-  fetch("http://localhost:5000/register", {
+  fetch(API + "/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, mobile, password, village, crop }),
@@ -85,7 +85,7 @@ function loginFarmer(event) {
 
   msg.className = "sf-message";
 
-  fetch("http://localhost:5000/login", {
+  fetch(API + "/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ mobile, password }),
