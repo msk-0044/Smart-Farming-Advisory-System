@@ -13,8 +13,8 @@ app.get("/ping", (req, res) => {
 
 const path = require("path");
 
-// absolute path fix for Railway
-const frontendPath = path.join(process.cwd(), "frontend");
+
+const frontendPath = path.join(__dirname, "../frontend");
 
 app.use(express.static(frontendPath));
 
