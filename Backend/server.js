@@ -6,6 +6,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "../Frontend")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
+});
+
+
 // MySQL connection
 const db = mysql.createConnection({
   host: "localhost",
