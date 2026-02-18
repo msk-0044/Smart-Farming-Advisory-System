@@ -2,17 +2,24 @@ const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
 
 
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, "../frontend")));
+// absolute path fix for Railway
+const frontendPath = path.join(process.cwd(), "frontend");
+
+app.use(express.static(frontendPath));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/index.html"));
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 
