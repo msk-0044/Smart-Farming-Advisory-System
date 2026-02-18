@@ -17,18 +17,19 @@ app.get("/", (req, res) => {
 
 
 // MySQL connection
+// MySQL connection (Railway safe)
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "smart_farming",
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASS || "",
+  database: process.env.DB_NAME || "smart_farming",
 });
 
 db.connect((err) => {
   if (err) {
-    console.error("❌ Database connection failed:", err);
+    console.log("⚠️ MySQL not connected (deploy mode)");
   } else {
-    console.log("✅ Connected to MySQL database");
+    console.log("✅ Connected to MySQL");
   }
 });
 
@@ -356,5 +357,5 @@ app.post("/save-soil", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log("🚀 Server running on port " + PORT);
+  console.log("🚀 Server running on port", PORT);
 });
