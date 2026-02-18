@@ -72,8 +72,15 @@ function safeQuery(sql, params, callback) {
     return callback && callback(null, []);
   }
 
+  // allow optional params
+  if (typeof params === "function") {
+    callback = params;
+    params = [];
+  }
+
   db.query(sql, params, callback);
 }
+
 
 
 
@@ -82,6 +89,14 @@ function safeQuery(sql, params, callback) {
 
 app.post("/register", (req, res) => {
   const { name, mobile, password, village, crop } = req.body;
+
+  if (!name || !mobile || !password || !village || !crop) {
+    return res.status(400).send("All fields required");
+  }
+
+  if (!/^\d{10}$/.test(mobile)) {
+    return res.status(400).send("Mobile must be 10 digits");
+  }
 
   const checkQuery = "SELECT * FROM users WHERE mobile_no = ?";
 
@@ -112,6 +127,10 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
   const { mobile, password } = req.body;
 
+  if (!mobile || !password) {
+    return res.status(400).send("Enter mobile & password");
+  }
+
   const query = "SELECT * FROM users WHERE mobile_no = ? AND password = ?";
 
   safeQuery(query, [mobile, password], (err, result) => {
@@ -124,13 +143,18 @@ app.post("/login", (req, res) => {
       return res.status(401).send("Invalid mobile or password");
     }
 
-    res.json(result[0]); // send user data
+    res.json(result[0]);
   });
 });
+
 
 // ================== ADMIN LOGIN ==================
 app.post("/admin-login", (req, res) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).send("Enter email & password");
+  }
 
   const query = "SELECT * FROM admin WHERE email=? AND password=?";
 
@@ -147,6 +171,7 @@ app.post("/admin-login", (req, res) => {
     res.json(result[0]);
   });
 });
+
 
 
 // ================== CROP RECOMMEND ==================
@@ -179,7 +204,11 @@ app.post("/crop", (req, res) => {
 app.post("/fertilizer", (req, res) => {
   let { crop, N, P, K } = req.body;
 
-  // convert to lowercase
+  // 🔴 VALIDATION FIRST
+  if (!crop) {
+    return res.status(400).send("Crop required");
+  }
+
   crop = crop.toLowerCase();
 
   let plan = "";
@@ -382,13 +411,15 @@ app.get("/admin-soil", (req, res) => {
 app.post("/save-soil", (req, res) => {
   const { farmer_name, nitrogen, phosphorus, potassium, ph } = req.body;
 
+  if (!farmer_name) return res.status(400).send("Farmer name required");
+
   const sql = `
     INSERT INTO soil_parameter
     (farmer_name, nitrogen, phosphorus, potassium, ph)
     VALUES (?,?,?,?,?)
   `;
 
- safeQuery(sql, [farmer_name, nitrogen, phosphorus, potassium, ph], (err) => {
+  safeQuery(sql, [farmer_name, nitrogen, phosphorus, potassium, ph], (err) => {
     if (err) {
       console.log("SOIL INSERT ERROR:", err);
       return res.status(500).send("Insert error");
@@ -398,12 +429,15 @@ app.post("/save-soil", (req, res) => {
   });
 });
 
-// ================== START SERVER ==================
-// const PORT = process.env.PORT || 5000;
 
-// app.listen(PORT, () => {
-//   console.log("🚀 Server running on port", PORT);
-// });
+
+// SPA fallback for React/Vite frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
+
+
+// ================== START SERVER ==================
 
 const PORT = process.env.PORT || 5000;
 

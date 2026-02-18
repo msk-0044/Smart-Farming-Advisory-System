@@ -3,7 +3,7 @@
 const FARMERS_KEY = "sf_farmers_db";
 const CURRENT_FARMER_KEY = "sf_current_farmer";
 const ADMIN_KEY = "sf_admin";
-const API = "http://localhost:5000";
+const API = "";
 
 // ===============================
 // DEMO FARMER ACCOUNT
@@ -568,6 +568,8 @@ window.addEventListener("DOMContentLoaded", () => {
     .catch((err) => console.log("Disease fetch error", err));
 });
 
+// Delete Farmers
+
 function deleteFarmer(id) {
   if (!confirm("Delete farmer?")) return;
 
@@ -697,24 +699,6 @@ function loadFarmers() {
   }
 }
 
-// ================= DELETE FARMERS  =================
-
-function deleteFarmer(id) {
-  if (!confirm("Delete farmer?")) return;
-
-  fetch(API + "/admin-farmers/" + id, { method: "DELETE" }).then(() =>
-    loadFarmers(),
-  );
-}
-
 window.addEventListener("DOMContentLoaded", loadFarmers);
-
-function deleteFarmer(id) {
-  if (!confirm("Delete farmer?")) return;
-
-  fetch(API + "/admin-farmers/" + id, { method: "DELETE" }).then(() => {
-    loadFarmers();
-  });
-}
 
 window.addEventListener("DOMContentLoaded", loadFarmers);
