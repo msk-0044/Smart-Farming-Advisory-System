@@ -66,36 +66,26 @@ app.use((req, res, next) => {
 });
 
 
-function safeQuery(...args) {
+function safeQuery(sql, params, callback) {
   if (!db) {
     console.log("No DB → demo mode");
-    return;
+    return callback && callback(null, []);
   }
 
-  db.query(...args);
+  db.query(sql, params, callback);
 }
 
 
 
 // ================== REGISTER FARMER ==================
-app.get("/test", (req, res) => {
-  res.send("SERVER WORKING");
-});
+
 
 app.post("/register", (req, res) => {
   const { name, mobile, password, village, crop } = req.body;
 
-  if (!name || !mobile || !password || !village || !crop) {
-    return res.status(400).send("All fields required");
-  }
-
-  // 🔴 MOBILE MUST BE EXACTLY 10 DIGITS
-  if (!/^\d{10}$/.test(mobile)) {
-    return res.status(400).send("Phone number must be exactly 10 digits");
-  }
-
   const checkQuery = "SELECT * FROM users WHERE mobile_no = ?";
-  safeQuery(res, checkQuery, [mobile], (err, result) => {
+
+  safeQuery(checkQuery, [mobile], (err, result) => {
     if (err) return res.status(500).send("DB error");
 
     if (result.length > 0) {
@@ -116,6 +106,7 @@ app.post("/register", (req, res) => {
   });
 });
 
+
 // ================== LOGIN FARMER ==================
 
 app.post("/login", (req, res) => {
@@ -123,7 +114,7 @@ app.post("/login", (req, res) => {
 
   const query = "SELECT * FROM users WHERE mobile_no = ? AND password = ?";
 
-  safeQuery(res, query, [mobile, password], (err, result) => {
+  safeQuery(query, [mobile, password], (err, result) => {
     if (err) {
       console.log(err);
       return res.status(500).send("DB error");
@@ -144,15 +135,19 @@ app.post("/admin-login", (req, res) => {
   const query = "SELECT * FROM admin WHERE email=? AND password=?";
 
   safeQuery(query, [email, password], (err, result) => {
-    if (err) return res.status(500).send("DB error");
+    if (err) {
+      console.log(err);
+      return res.status(500).send("DB error");
+    }
 
-    if (result.length === 0) {
+    if (!result || result.length === 0) {
       return res.status(401).send("Invalid admin");
     }
 
     res.json(result[0]);
   });
 });
+
 
 // ================== CROP RECOMMEND ==================
 app.post("/crop", (req, res) => {
@@ -415,12 +410,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
   console.log("🚀 Server running on port", PORT);
 
-  // import DB only once
- // RUN IMPORT ON RAILWAY ONLY (one time)
-if (process.env.MYSQL_URL) {
-  console.log("🚀 IMPORTING LOCAL DATA TO RAILWAY DB...");
-  require("./import.js");
-}
+
 
 });
 
