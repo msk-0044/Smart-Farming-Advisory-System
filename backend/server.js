@@ -1,10 +1,10 @@
+console.log("FORCE REBUILD V2");
 
 
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 
-console.log("NEW DEPLOY TEST");
 
 const app = express();
 app.use(cors());
