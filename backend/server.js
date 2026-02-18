@@ -6,9 +6,7 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.get("/ping", (req, res) => {
-  res.send("pong");
-});
+
 
 
 const path = require("path");
@@ -68,12 +66,13 @@ app.use((req, res, next) => {
 });
 
 
-function safeQuery(res, query, params, callback) {
+function safeQuery(...args) {
   if (!db) {
-    return res.json({ message: "Server running without database (demo mode)" });
+    console.log("No DB → demo mode");
+    return;
   }
 
-  db.query(query, params, callback);
+  db.query(...args);
 }
 
 
