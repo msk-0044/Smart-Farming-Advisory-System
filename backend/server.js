@@ -48,7 +48,20 @@ app.use((req, res, next) => {
 });
 
 
+function safeQuery(res, query, params, callback) {
+  if (!db) {
+    return res.json({ message: "Server running without database (demo mode)" });
+  }
+
+  safeQuery(query, params, callback);
+}
+
+
 // ================== REGISTER FARMER ==================
+app.get("/test", (req, res) => {
+  res.send("SERVER WORKING");
+});
+
 app.post("/register", (req, res) => {
   const { name, mobile, password, village, crop } = req.body;
 
@@ -62,7 +75,7 @@ app.post("/register", (req, res) => {
   }
 
   const checkQuery = "SELECT * FROM users WHERE mobile_no = ?";
-  db.query(checkQuery, [mobile], (err, result) => {
+  safeQuery(res, checkQuery, [mobile], (err, result) => {
     if (err) return res.status(500).send("DB error");
 
     if (result.length > 0) {
@@ -72,7 +85,7 @@ app.post("/register", (req, res) => {
     const insertQuery =
       "INSERT INTO users (name, mobile_no, password, village, crop) VALUES (?,?,?,?,?)";
 
-    db.query(insertQuery, [name, mobile, password, village, crop], (err) => {
+    safeQuery(insertQuery, [name, mobile, password, village, crop], (err) => {
       if (err) {
         console.log(err);
         return res.status(500).send("Insert failed");
@@ -84,12 +97,13 @@ app.post("/register", (req, res) => {
 });
 
 // ================== LOGIN FARMER ==================
+
 app.post("/login", (req, res) => {
   const { mobile, password } = req.body;
 
   const query = "SELECT * FROM users WHERE mobile_no = ? AND password = ?";
 
-  db.query(query, [mobile, password], (err, result) => {
+  safeQuery(res, query, [mobile, password], (err, result) => {
     if (err) {
       console.log(err);
       return res.status(500).send("DB error");
@@ -109,7 +123,7 @@ app.post("/admin-login", (req, res) => {
 
   const query = "SELECT * FROM admin WHERE email=? AND password=?";
 
-  db.query(query, [email, password], (err, result) => {
+  safeQuery(query, [email, password], (err, result) => {
     if (err) return res.status(500).send("DB error");
 
     if (result.length === 0) {
@@ -236,13 +250,14 @@ app.get("/admin-stats", (req, res) => {
   };
 
   // FARMER COUNT
-  db.query("SELECT COUNT(*) AS total FROM users", (err, result) => {
+  safeQuery("SELECT COUNT(*) AS total FROM users", (err, result) => {
     if (!err && result.length > 0) {
       stats.farmers = result[0].total;
     }
 
     // REAL DISEASE DATA
-    db.query(
+    safeQuery
+    (
       "SELECT COUNT(*) AS total, AVG(confidence) AS avgConf FROM disease_reports",
       (err2, result2) => {
 
@@ -271,7 +286,7 @@ app.get("/admin-stats", (req, res) => {
 
 // ================== GET DISEASE REPORTS FOR ADMIN ==================
 app.get("/admin-disease", (req, res) => {
-  db.query(
+  safeQuery(
     "SELECT * FROM disease_reports ORDER BY report_date DESC",
     (err, result) => {
       if (err) {
@@ -294,7 +309,7 @@ app.post("/save-report", (req, res) => {
     VALUES (?,?,?,?,?)
   `;
 
-  db.query(sql, [farmer_name, crop, disease, confidence, risk], (err) => {
+  safeQuery(sql, [farmer_name, crop, disease, confidence, risk], (err) => {
     if (err) {
       console.log(err);
       return res.status(500).send("Insert error");
@@ -305,7 +320,7 @@ app.post("/save-report", (req, res) => {
 });
 
 app.get("/admin-disease-stats", (req, res) => {
-  db.query(
+ safeQuery(
     "SELECT disease, COUNT(*) as count FROM disease_reports GROUP BY disease",
     (err, rows) => {
       if (err) return res.status(500).send("DB error");
@@ -316,7 +331,7 @@ app.get("/admin-disease-stats", (req, res) => {
 
 // ===== GET ALL FARMERS =====
 app.get("/admin-farmers", (req, res) => {
-  db.query(
+  safeQuery(
     "SELECT uid, name, mobile_no, village, crop FROM users ORDER BY uid DESC",
     (err, rows) => {
       if (err) {
@@ -332,14 +347,14 @@ app.get("/admin-farmers", (req, res) => {
 app.delete("/admin-farmers/:id", (req, res) => {
   const id = req.params.id;
 
-  db.query("DELETE FROM users WHERE uid=?", [id], (err) => {
+  safeQuery("DELETE FROM users WHERE uid=?", [id], (err) => {
     if (err) return res.status(500).send("Delete error");
     res.send("Deleted");
   });
 });
 
 app.get("/admin-soil", (req, res) => {
-  db.query(
+  safeQuery(
     "SELECT * FROM soil_parameter ORDER BY created_at DESC",
     (err, rows) => {
       if (err) return res.status(500).send("DB error");
@@ -358,7 +373,7 @@ app.post("/save-soil", (req, res) => {
     VALUES (?,?,?,?,?)
   `;
 
-  db.query(sql, [farmer_name, nitrogen, phosphorus, potassium, ph], (err) => {
+ safeQuery(sql, [farmer_name, nitrogen, phosphorus, potassium, ph], (err) => {
     if (err) {
       console.log("SOIL INSERT ERROR:", err);
       return res.status(500).send("Insert error");
