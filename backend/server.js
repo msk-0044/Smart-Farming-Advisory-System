@@ -17,21 +17,36 @@ app.get("/", (req, res) => {
 
 
 // MySQL connection
-// MySQL connection (Railway safe)
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASS || "",
-  database: process.env.DB_NAME || "smart_farming",
+let db;
+
+try {
+  db = mysql.createConnection({
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASS || "",
+    database: process.env.DB_NAME || "smart_farming",
+  });
+
+  db.connect((err) => {
+    if (err) {
+      console.log("⚠️ Running without MySQL (Railway mode)");
+      db = null; // disable db
+    } else {
+      console.log("✅ MySQL connected");
+    }
+  });
+
+} catch (e) {
+  console.log("⚠️ MySQL disabled");
+  db = null;
+}
+
+
+app.use((req, res, next) => {
+  if (!db) console.log("No DB → demo mode");
+  next();
 });
 
-db.connect((err) => {
-  if (err) {
-    console.log("⚠️ MySQL not connected (deploy mode)");
-  } else {
-    console.log("✅ Connected to MySQL");
-  }
-});
 
 // ================== REGISTER FARMER ==================
 app.post("/register", (req, res) => {
