@@ -13,13 +13,19 @@ app.get("/ping", (req, res) => {
 
 
 // ===== FRONTEND SERVE (RAILWAY SAFE) =====
+const path = require("path");
+
+// Use Railway-safe absolute path
 const frontendPath = path.join(process.cwd(), "frontend");
+
+console.log("Serving frontend from:", frontendPath);
 
 app.use(express.static(frontendPath));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
+
 
 
 // ===== MYSQL CONNECTION =====
