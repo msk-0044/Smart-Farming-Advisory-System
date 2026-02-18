@@ -24,28 +24,39 @@ app.get("/", (req, res) => {
 
 
 // MySQL connection
+
 let db;
 
-try {
+if (process.env.MYSQL_URL) {
+  // Railway mode
+  db = mysql.createConnection(process.env.MYSQL_URL);
+
+  db.connect((err) => {
+    if (err) {
+      console.log("❌ Railway MySQL connection failed:", err);
+      db = null;
+    } else {
+      console.log("✅ Railway MySQL connected");
+    }
+  });
+
+} else {
+  // Local mode (for VS Code testing)
   db = mysql.createConnection({
-    host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASS || "",
-    database: process.env.DB_NAME || "smart_farming",
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "smart_farming",
   });
 
   db.connect((err) => {
     if (err) {
-      console.log("⚠️ Running without MySQL (Railway mode)");
-      db = null; // disable db
+      console.log("⚠️ Local MySQL not running");
+      db = null;
     } else {
-      console.log("✅ MySQL connected");
+      console.log("✅ Local MySQL connected");
     }
   });
-
-} catch (e) {
-  console.log("⚠️ MySQL disabled");
-  db = null;
 }
 
 
@@ -60,8 +71,9 @@ function safeQuery(res, query, params, callback) {
     return res.json({ message: "Server running without database (demo mode)" });
   }
 
-  safeQuery(query, params, callback);
+  db.query(query, params, callback);
 }
+
 
 
 // ================== REGISTER FARMER ==================
