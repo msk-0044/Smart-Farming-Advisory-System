@@ -404,8 +404,24 @@ app.post("/save-soil", (req, res) => {
 });
 
 // ================== START SERVER ==================
+// const PORT = process.env.PORT || 5000;
+
+// app.listen(PORT, () => {
+//   console.log("🚀 Server running on port", PORT);
+// });
+
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log("🚀 Server running on port", PORT);
+
+  // import DB only once
+ // RUN IMPORT ON RAILWAY ONLY (one time)
+if (process.env.MYSQL_URL) {
+  console.log("🚀 IMPORTING LOCAL DATA TO RAILWAY DB...");
+  require("./import.js");
+}
+
 });
+
+
