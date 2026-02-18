@@ -22,6 +22,8 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
+console.log("MYSQL_URL:", process.env.MYSQL_URL ? "FOUND" : "NOT FOUND");
+
 
 // MySQL connection
 
