@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard | Smart Farming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body class="sf-body">
+    <header class="sf-topbar">
+      <div class="sf-brand">
+        <span class="sf-logo-circle">SF</span>
+        <div>
+          <div class="sf-brand-title">Smart Farming</div>
+          <div class="sf-brand-sub">Admin Dashboard</div>
+        </div>
+      </div>
+      <nav class="sf-nav">
+        <a href="index.html" class="sf-nav-link">Home</a>
+        <a href="farmer-login.html" class="sf-nav-link">Farmer Login</a>
+        <a href="admin-dashboard.html" class="sf-nav-link sf-nav-link--active"
+          >Admin</a
+        >
+      </nav>
+    </header>
+
+    <main class="sf-main sf-main--dashboard">
+      <section class="sf-dashboard-header">
+        <div>
+          <h1 class="sf-dashboard-title">System Overview</h1>
+          <p class="sf-dashboard-sub">
+            The admin panel provides a high-level overview of registered
+            farmers, disease detection reports, and the system’s model
+            performance metrics.
+          </p>
+        </div>
+        <div class="sf-pill-row">
+          <span class="sf-pill">Admin: admin@sf.com</span>
+        </div>
+      </section>
+
+      <section class="admin-grid">
+        <article class="sf-card">
+          <h2 class="sf-card-heading">Usage Snapshot</h2>
+          <div class="sf-metric-row">
+            <div class="sf-metric-card">
+              <span class="sf-metric-label">Registered Farmers</span>
+              <span class="sf-metric-value" id="adminFarmersCount">0</span>
+            </div>
+            <div class="sf-metric-card">
+              <span class="sf-metric-label">Disease Scans</span>
+              <span class="sf-metric-value" id="scanCount">38</span>
+            </div>
+            <div class="sf-metric-card">
+              <span class="sf-metric-label">Avg Confidence</span>
+              <span class="sf-metric-value" id="avgConfidence">89%</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="sf-card sf-card--wide">
+          <h2 class="sf-card-heading">Sample Disease Reports</h2>
+          <div class="sf-table-wrapper">
+            <table class="sf-table">
+              <thead>
+                <tr>
+                  <th>Farmer</th>
+                  <th>Crop</th>
+                  <th>Disease</th>
+                  <th>Confidence</th>
+                  <th>Risk Level</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="diseaseTableBody"></tbody>
+            </table>
+          </div>
+          <p class="sf-small">
+            Future scope: From this section, the application can retrieve farmer
+            records, disease reports, and model logs directly from a backend
+            database.
+          </p>
+        </article>
+
+
+
+        <article class="sf-card soil-card">
+  <h2 class="sf-card-heading">Soil Records</h2>
+  <table class="sf-table">
+    <thead>
+      <tr>
+        <th>Farmer</th>
+        <th>N</th>
+        <th>P</th>
+        <th>K</th>
+        <th>pH</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody id="soilTableBody"></tbody>
+  </table>
+</article>
+
+
+        <article class="sf-card chart-card">
+          <h2 class="sf-card-heading">Disease Stats</h2>
+          <canvas id="diseaseChart"></canvas>
+        </article>
+
+             <article class="sf-card sf-card--wide" style="grid-column:1/-1">
+          <h2 class="sf-card-heading">Farmers List</h2>
+
+          <input
+            type="text"
+            id="farmerSearch"
+            placeholder="Search farmer..."
+            class="sf-input"
+            style="margin-bottom: 10px;"
+          />
+
+          <div class="sf-table-wrapper">
+            <table class="sf-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Mobile</th>
+                  <th>Village</th>
+                  <th>Crop</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="farmersTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="sf-footer">
+      © 2025 Smart Farming Advisory System · Admin Dashboard
+    </footer>
+
+    <script>
+      if (!sessionStorage.getItem("admin_logged")) {
+        window.location.href = "admin-login.html";
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Farmer Registration | Smart Farming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body class="sf-body">
+    <header class="sf-topbar">
+      <div class="sf-brand">
+        <span class="sf-logo-circle">SF</span>
+        <div>
+          <div class="sf-brand-title">Smart Farming</div>
+          <div class="sf-brand-sub">Farmer Registration</div>
+        </div>
+      </div>
+      <nav class="sf-nav">
+        <a href="index.html" class="sf-nav-link">Home</a>
+        <a href="farmer-login.html" class="sf-nav-link">Login</a>
+        <a href="farmer-register.html" class="sf-nav-link sf-nav-link--active"
+          >Register</a
+        >
+      </nav>
+    </header>
+
+    <main class="sf-auth-main">
+      <div class="sf-auth-container">
+        <div class="sf-auth-intro">
+          <h1>Create Farmer Account</h1>
+          <p>
+            After creating a new account, you can use the Smart Farming
+            Dashboard to access crop selection, fertilizer recommendations, and
+            disease detection features.
+          </p>
+          <ul class="sf-list">
+            <li>
+              Your account will be uniquely identified by your mobile number.
+            </li>
+            <li>
+              All data will be stored in the browser’s local storage for
+              demonstration purposes.
+            </li>
+          </ul>
+        </div>
+
+        <div class="sf-auth-card">
+          <h2 class="sf-auth-title">Farmer Sign Up</h2>
+          <form onsubmit="registerFarmer(event)">
+            <label class="sf-label">Full Name</label>
+            <input
+              type="text"
+              id="regName"
+              class="sf-input"
+              placeholder="Farmer name"
+            />
+
+            <label class="sf-label">Mobile Number</label>
+            <input
+              type="text"
+              id="regMobile"
+              class="sf-input"
+              placeholder="10 digit mobile number"
+            />
+
+            <label class="sf-label">Village / City</label>
+            <input
+              type="text"
+              id="regVillage"
+              class="sf-input"
+              placeholder="Village / City"
+            />
+
+            <label class="sf-label">Primary Crop Type</label>
+            <input
+              type="text"
+              id="regCrop"
+              class="sf-input"
+              placeholder="e.g. Wheat, Rice, Cotton"
+            />
+
+            <!-- <label class="sf-label">Password</label>
+            <input
+              type="password"
+              id="regPassword"
+              class="sf-input"
+              placeholder="Create password"
+            /> -->
+
+            <label class="sf-label">Password</label>
+
+            <div class="password-field">
+              <input
+                type="password"
+                id="regPassword"
+                class="sf-input"
+                placeholder="Create password"
+              />
+
+              <button
+                type="button"
+                class="eye-btn"
+                onclick="togglePassword('regPassword', this)"
+              >
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+
+            <button type="submit" class="sf-btn sf-btn--primary sf-btn--block">
+              Create Account
+            </button>
+          </form>
+          <p class="sf-auth-note">
+            Already have an account? <a href="farmer-login.html">Login here</a>.
+          </p>
+          <p id="regMessage" class="sf-message"></p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="sf-footer">© 2025 Smart Farming Advisory System</footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

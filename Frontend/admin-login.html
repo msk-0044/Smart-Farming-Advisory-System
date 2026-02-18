@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Login | Smart Farming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body class="sf-body">
+    <header class="sf-topbar">
+      <div class="sf-brand">
+        <span class="sf-logo-circle">SF</span>
+        <div>
+          <div class="sf-brand-title">Smart Farming</div>
+          <div class="sf-brand-sub">Admin Login</div>
+        </div>
+      </div>
+      <nav class="sf-nav">
+        <a href="index.html" class="sf-nav-link">Home</a>
+        <a href="farmer-login.html" class="sf-nav-link">Farmer Login</a>
+        <a href="admin-login.html" class="sf-nav-link sf-nav-link--active"
+          >Admin</a
+        >
+      </nav>
+    </header>
+
+    <main class="sf-auth-main">
+      <div class="sf-auth-container">
+        <div class="sf-auth-intro">
+          <h1>Admin Panel Access</h1>
+          <p>
+            Through the admin dashboard, you can monitor disease reports, model
+            status, and overall system usage.
+          </p>
+          <p class="sf-small">
+            For the purpose of the college demonstration, a single fixed admin
+            account has been provided.
+            <br />
+            <b>Email:</b> admin@sf.com<br />
+            <b>Password:</b> admin123
+          </p>
+        </div>
+
+        <div class="sf-auth-card">
+          <h2 class="sf-auth-title">Admin Login</h2>
+          <form onsubmit="loginAdmin(event)">
+            <label class="sf-label">Admin Email</label>
+            <input
+              type="email"
+              id="adminEmail"
+              class="sf-input"
+              placeholder="admin@sf.com"
+            />
+
+            <label class="sf-label">Password</label>
+            <input
+              type="password"
+              id="adminPassword"
+              class="sf-input"
+              placeholder="Password"
+            />
+
+            <button type="submit" class="sf-btn sf-btn--primary sf-btn--block">
+              Login as Admin
+            </button>
+          </form>
+          <p id="adminMessage" class="sf-message"></p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="sf-footer">© 2025 Smart Farming Advisory System</footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

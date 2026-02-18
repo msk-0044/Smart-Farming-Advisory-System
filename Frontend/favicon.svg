@@ -1,0 +1,15 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Exact Green Circle Background -->
+  <circle cx="256" cy="256" r="256" fill="#286E2D"/>
+  
+  <!-- "SF" Text White -->
+  <text x="50%" y="54%" 
+        dominant-baseline="middle" 
+        text-anchor="middle" 
+        font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" 
+        font-weight="bold" 
+        font-size="260" 
+        fill="#ffffff">
+    SF
+  </text>
+</svg>

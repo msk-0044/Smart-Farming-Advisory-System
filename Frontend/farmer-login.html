@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Farmer Login | Smart Farming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body class="sf-body">
+    <header class="sf-topbar">
+      <div class="sf-brand">
+        <span class="sf-logo-circle">SF</span>
+        <div>
+          <div class="sf-brand-title">Smart Farming</div>
+          <div class="sf-brand-sub">Farmer Login</div>
+        </div>
+      </div>
+      <nav class="sf-nav">
+        <a href="index.html" class="sf-nav-link">Home</a>
+        <a href="farmer-login.html" class="sf-nav-link sf-nav-link--active"
+          >Login</a
+        >
+        <a href="farmer-register.html" class="sf-nav-link">Register</a>
+      </nav>
+    </header>
+
+    <main class="sf-auth-main">
+      <div class="sf-auth-container">
+        <div class="sf-auth-intro">
+          <h1>Farmer Login</h1>
+          <p>
+            After logging in, you can access your personalized Smart Farming
+            Advisory Dashboard.
+          </p>
+          <ul class="sf-list">
+            <li>Use your mobile number and password to log in.</li>
+            <li>
+              An account must be created first through the registration page.
+            </li>
+          </ul>
+        </div>
+
+        <div class="sf-auth-card">
+          <h2 class="sf-auth-title">Login</h2>
+          <form onsubmit="loginFarmer(event)">
+            <label class="sf-label">Mobile Number</label>
+            <input
+              type="text"
+              id="loginMobile"
+              class="sf-input"
+              placeholder="Registered mobile number"
+            />
+
+            <!-- <label class="sf-label">Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              class="sf-input"
+              placeholder="Password"
+            /> -->
+
+            <label class="sf-label">Password</label>
+
+            <div class="password-field">
+              <input
+                type="password"
+                id="loginPassword"
+                class="sf-input"
+                placeholder="Password"
+              />
+
+              <button
+                type="button"
+                class="eye-btn"
+                onclick="togglePassword('loginPassword', this)"
+              >
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+
+            <button type="submit" class="sf-btn sf-btn--primary sf-btn--block">
+              Login to Dashboard
+            </button>
+          </form>
+          <p class="sf-auth-note">
+            New here? <a href="farmer-register.html">Create a new account</a>.
+          </p>
+          <p id="loginMessage" class="sf-message"></p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="sf-footer">© 2025 Smart Farming Advisory System</footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
