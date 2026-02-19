@@ -84,6 +84,7 @@ app.get("/db-test", (req, res) => {
     res.json({
       message: "Database connected",
       total_users: result[0].users,
+      time: new Date(),
     });
   });
 });
