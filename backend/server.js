@@ -2,14 +2,11 @@ const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-
 const path = require("path");
-
 
 const frontendPath = path.join(__dirname, "../frontend");
 
@@ -20,7 +17,6 @@ app.get("/", (req, res) => {
 });
 
 console.log("MYSQL_URL:", process.env.MYSQL_URL ? "FOUND" : "NOT FOUND");
-
 
 // MySQL connection
 
@@ -37,7 +33,6 @@ if (process.env.MYSQL_URL) {
   });
 
   console.log("✅ Using Railway MySQL pool");
-
 } else {
   // 🖥️ Local DB
   db = mysql.createPool({
@@ -51,12 +46,10 @@ if (process.env.MYSQL_URL) {
   console.log("✅ Using Local MySQL pool");
 }
 
-
 app.use((req, res, next) => {
   if (!db) console.log("No DB → demo mode");
   next();
 });
-
 
 function safeQuery(sql, params, callback) {
   if (!db) {
@@ -74,10 +67,29 @@ function safeQuery(sql, params, callback) {
 }
 
 
+// Testing Backend Server Alive 
+
+app.get("/test", (req, res) => {
+  res.json({ status: "Backend running", time: new Date() });
+});
+
+
+
+// Test DB Server Alive
+
+app.get("/db-test", (req, res) => {
+  safeQuery("SELECT COUNT(*) AS users FROM users", (err, result) => {
+    if (err) return res.send("DB ERROR");
+
+    res.json({
+      message: "Database connected",
+      total_users: result[0].users,
+    });
+  });
+});
 
 
 // ================== REGISTER FARMER ==================
-
 
 app.post("/register", (req, res) => {
   const { name, mobile, password, village, crop } = req.body;
@@ -118,8 +130,6 @@ app.post("/register", (req, res) => {
   });
 });
 
-
-
 // ================== LOGIN FARMER ==================
 
 app.post("/login", (req, res) => {
@@ -146,8 +156,6 @@ app.post("/login", (req, res) => {
   });
 });
 
-
-
 // ================== ADMIN LOGIN ==================
 app.post("/admin-login", (req, res) => {
   const { email, password } = req.body;
@@ -171,8 +179,6 @@ app.post("/admin-login", (req, res) => {
     res.json(result[0]);
   });
 });
-
-
 
 // ================== CROP RECOMMEND ==================
 app.post("/crop", (req, res) => {
@@ -282,14 +288,13 @@ app.post("/disease", (req, res) => {
 
 // ================== ADMIN DASHBOARD STATS ==================
 app.get("/admin-stats", (req, res) => {
-
   const DEMO_SCANS = 38;
   const DEMO_CONF = 89;
 
   const stats = {
     farmers: 0,
     scans: DEMO_SCANS,
-    confidence: DEMO_CONF
+    confidence: DEMO_CONF,
   };
 
   // FARMER COUNT
@@ -299,13 +304,10 @@ app.get("/admin-stats", (req, res) => {
     }
 
     // REAL DISEASE DATA
-    safeQuery
-    (
+    safeQuery(
       "SELECT COUNT(*) AS total, AVG(confidence) AS avgConf FROM disease_reports",
       (err2, result2) => {
-
         if (!err2 && result2.length > 0) {
-
           const realCount = result2[0].total || 0;
           const realAvg = result2[0].avgConf || 0;
 
@@ -320,12 +322,10 @@ app.get("/admin-stats", (req, res) => {
         }
 
         res.json(stats);
-      }
+      },
     );
   });
-
 });
-
 
 // ================== GET DISEASE REPORTS FOR ADMIN ==================
 app.get("/admin-disease", (req, res) => {
@@ -363,7 +363,7 @@ app.post("/save-report", (req, res) => {
 });
 
 app.get("/admin-disease-stats", (req, res) => {
- safeQuery(
+  safeQuery(
     "SELECT disease, COUNT(*) as count FROM disease_reports GROUP BY disease",
     (err, rows) => {
       if (err) return res.status(500).send("DB error");
@@ -428,14 +428,10 @@ app.post("/save-soil", (req, res) => {
   });
 });
 
-
-
 // SPA fallback for React/Vite frontend
 app.use((req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
-
-
 
 // ================== START SERVER ==================
 
@@ -443,9 +439,4 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {
   console.log("🚀 Server running on port", PORT);
-
-
-
 });
-
-
