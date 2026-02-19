@@ -8,7 +8,6 @@ app.use(cors());
 app.use(express.json());
 
 
-
 const path = require("path");
 
 
@@ -28,35 +27,28 @@ console.log("MYSQL_URL:", process.env.MYSQL_URL ? "FOUND" : "NOT FOUND");
 let db;
 
 if (process.env.MYSQL_URL) {
-  // Railway mode
-  db = mysql.createConnection(process.env.MYSQL_URL);
-
-  db.connect((err) => {
-    if (err) {
-      console.log("❌ Railway MySQL connection failed:", err);
-      db = null;
-    } else {
-      console.log("✅ Railway MySQL connected");
-    }
+  // 🚀 Railway production DB
+  db = mysql.createPool({
+    uri: process.env.MYSQL_URL,
+    connectionLimit: 5,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   });
 
+  console.log("✅ Using Railway MySQL pool");
+
 } else {
-  // Local mode (for VS Code testing)
-  db = mysql.createConnection({
+  // 🖥️ Local DB
+  db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "",
     database: "smart_farming",
+    connectionLimit: 5,
   });
 
-  db.connect((err) => {
-    if (err) {
-      console.log("⚠️ Local MySQL not running");
-      db = null;
-    } else {
-      console.log("✅ Local MySQL connected");
-    }
-  });
+  console.log("✅ Using Local MySQL pool");
 }
 
 
@@ -72,13 +64,13 @@ function safeQuery(sql, params, callback) {
     return callback && callback(null, []);
   }
 
-  // allow optional params
-  if (typeof params === "function") {
-    callback = params;
-    params = [];
-  }
-
-  db.query(sql, params, callback);
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      console.log("DB QUERY ERROR:", err);
+      return callback && callback(err);
+    }
+    callback && callback(null, result);
+  });
 }
 
 
@@ -288,7 +280,6 @@ app.post("/disease", (req, res) => {
   res.json({ disease, risk, advice });
 });
 
-// ================== ADMIN DASHBOARD STATS ==================
 // ================== ADMIN DASHBOARD STATS ==================
 app.get("/admin-stats", (req, res) => {
 

@@ -5,28 +5,6 @@ const CURRENT_FARMER_KEY = "sf_current_farmer";
 const ADMIN_KEY = "sf_admin";
 const API = "";
 
-// ===============================
-// DEMO FARMER ACCOUNT
-// ===============================
-
-// const DEMO_FARMER = {
-//   name: "Demo Farmer",
-//   mobile: "9637601053",
-//   password: "demo123",
-//   village: "DemoVillage",
-//   crop: "Wheat",
-// };
-
-// (function ensureDemoFarmer() {
-//   let farmers = JSON.parse(localStorage.getItem("sf_farmers") || "[]");
-
-//   const exists = farmers.some((f) => f.mobile === DEMO_FARMER.mobile);
-
-//   if (!exists) {
-//     farmers.push(DEMO_FARMER);
-//     localStorage.setItem("sf_farmers", JSON.stringify(farmers));
-//   }
-// })();
 
 // ================== FARMER REGISTRATION (UPDATED FOR BACKEND) ==================
 
