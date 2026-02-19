@@ -432,20 +432,55 @@ body.sf-body {
   color: var(--sf-text-soft);
 }
 
-/* ================= ADMIN DASHBOARD LAYOUT ================= */
+
+
+/* ================= FARMER and ADMIN DASHBOARD LAYOUT ================= */
+
+/* ================= DESKTOP DEFAULT ================= */
+.farmer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
 .admin-grid {
   display: grid;
   grid-template-columns: 60% 40%;
   gap: 20px;
 }
 
-/* ================= FARMER DASHBOARD LAYOUT ================= */
-.farmer-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 20px !important;
-  align-items: start;
+/* ================= TABLET ================= */
+@media (max-width: 1024px) {
+
+  .farmer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sf-card--wide {
+    grid-column: 1 / -1;
+  }
 }
+
+/* ================= MOBILE ================= */
+@media (max-width: 640px) {
+
+  .farmer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sf-card--wide {
+    grid-column: 1 / -1;
+  }
+}
+
 
 /* prevention card goes below */
 .farmer-grid .sf-card--wide {
