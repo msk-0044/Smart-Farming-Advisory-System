@@ -67,10 +67,25 @@ function safeQuery(sql, params, callback) {
 }
 
 
+function getISTTime() {
+  return new Date().toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    dateStyle: "medium",
+    timeStyle: "medium",
+  });
+}
+
 // Testing Backend Server Alive 
 
+// app.get("/test", (req, res) => {
+//   res.json({ status: "Backend running", time: new Date() });
+// });
+
 app.get("/test", (req, res) => {
-  res.json({ status: "Backend running", time: new Date() });
+  res.json({
+    message: "SERVER WORKING",
+    time: getISTTime(),
+  });
 });
 
 
@@ -84,7 +99,7 @@ app.get("/db-test", (req, res) => {
     res.json({
       message: "Database connected",
       total_users: result[0].users,
-      time: new Date(),
+      time: getISTTime(),
     });
   });
 });
